@@ -1,0 +1,9 @@
+{
+  "logger": {
+    "level": "debug",
+    "file": {
+      "enabled": false,
+      "outputPath": "logs/app.log"
+    }
+  }
+}
