@@ -4,6 +4,7 @@ import { InfrastructureModule } from "./infrastructure/infrastructure.module"
 import { SecretManager } from "./common/abstracts/secret/secret-manager.abstract"
 import { GatewayIntentBits } from "discord.js"
 import { AppEvent } from "./app.event"
+import { FeedbackModule } from "./modules/feedback/feedback.module"
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AppEvent } from "./app.event"
       inject: [SecretManager],
     }),
     InfrastructureModule,
+    FeedbackModule,
   ],
   providers: [
     // Events
