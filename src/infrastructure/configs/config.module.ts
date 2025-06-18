@@ -13,8 +13,8 @@ import _ from "lodash"
       load: [
         (): any => {
           const env = process.env.NODE_ENV || "development"
-          const defaultConfigPath = resolve(__dirname, "..", "..", '..', "app-config.json")
-          const envConfigPath = resolve(__dirname, "..", "..", '..', `app-config.${env}.json`)
+          const defaultConfigPath = resolve(__dirname, "..", "..", "..", "app-config.json")
+          const envConfigPath = resolve(__dirname, "..", "..", "..", `app-config.${env}.json`)
           let config = JSON.parse(readFileSync(defaultConfigPath, "utf-8"))
 
           if (existsSync(envConfigPath)) {
