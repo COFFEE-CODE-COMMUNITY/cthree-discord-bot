@@ -1,6 +1,6 @@
 export class SecretNotFoundException extends Error {
-  constructor(key: string) {
+  public constructor(key: string) {
     super(`Secret not found: ${key}`)
-    this.name = 'SecretNotFoundException'
+    this.name = "SecretNotFoundException"
   }
 }

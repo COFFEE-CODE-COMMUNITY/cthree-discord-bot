@@ -7,9 +7,9 @@ import { EnvSecretManager } from "./env.secret-manager"
   providers: [
     {
       provide: SecretManager,
-      useClass: EnvSecretManager
-    }
+      useClass: EnvSecretManager,
+    },
   ],
-  exports: [SecretManager]
+  exports: [SecretManager],
 })
 export class SecretModule {}

@@ -1,13 +1,13 @@
-import { Inject, Injectable, Scope } from '@nestjs/common'
-import { Logger } from '../../common/interfaces/logger/logger.interface'
-import winston, { format, transports, createLogger } from 'winston'
-import { INQUIRER } from '@nestjs/core'
-import { LogLevel } from '../../common/enums/log-level.enum'
-import { ConfigService } from '@nestjs/config'
+import { Inject, Injectable, Scope } from "@nestjs/common"
+import { Logger } from "../../common/interfaces/logger/logger.interface"
+import winston, { format, transports, createLogger } from "winston"
+import { INQUIRER } from "@nestjs/core"
+import { LogLevel } from "../../common/enums/log-level.enum"
+import { ConfigService } from "@nestjs/config"
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class WinstonLogger implements Logger {
-  private logger: winston.Logger
+  private readonly logger: winston.Logger
 
   public constructor(
     private readonly config: ConfigService,
@@ -21,26 +21,25 @@ export class WinstonLogger implements Logger {
         },
         {} as Record<string, number>,
       ),
-      level: this.config.get<LogLevel>('logger.level', LogLevel.INFO),
+      level: this.config.get<LogLevel>("logger.level", LogLevel.INFO),
       transports: [
         new transports.Console({
           format: format.combine(
             format.timestamp(),
             format.printf(
               ({ timestamp, level, message }) =>
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                `[${level.toUpperCase()}] [${parentClass?.constructor.name}] ${timestamp} - ${message as string}`,
+                `[${level.toUpperCase()}] [${parentClass.constructor.name}] ${timestamp} - ${message as string}`,
             ),
           ),
         }),
       ],
     })
 
-    if (this.config.get<boolean>('logger.file.enabled', false)) {
+    if (this.config.get<boolean>("logger.file.enabled", false)) {
       this.logger.add(
         new transports.File({
-          filename: this.config.get<string>('logger.file.outputPath'),
-          level: this.config.get<LogLevel>('logger.level'),
+          filename: this.config.get<string>("logger.file.outputPath"),
+          level: this.config.get<LogLevel>("logger.level"),
           format: format.json(),
         }),
       )
@@ -63,7 +62,7 @@ export class WinstonLogger implements Logger {
     this.logger.log(LogLevel.INFO, message, ...args)
   }
 
-  public log(message: string, ...args) {
+  public log(message: string, ...args): void {
     this.logger.log(LogLevel.INFO, message, ...args)
   }
 

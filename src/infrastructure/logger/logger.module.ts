@@ -7,9 +7,9 @@ import { LOGGER } from "../../common/interfaces/logger/logger.interface"
   providers: [
     {
       provide: LOGGER,
-      useClass: WinstonLogger
-    }
+      useClass: WinstonLogger,
+    },
   ],
-  exports: [LOGGER]
+  exports: [LOGGER],
 })
 export class LoggerModule {}

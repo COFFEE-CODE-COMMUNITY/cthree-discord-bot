@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common"
 import { NecordModule, NecordModuleOptions } from "necord"
-import { ConfigModule } from "./configs/config.module"
 import { InfrastructureModule } from "./infrastructure/infrastructure.module"
 import { SecretManager } from "./common/abstracts/secret/secret-manager.abstract"
-import { GatewayIntentBits } from 'discord.js'
+import { GatewayIntentBits } from "discord.js"
 import { AppEvent } from "./app.event"
 
 @Module({
@@ -11,23 +10,22 @@ import { AppEvent } from "./app.event"
     NecordModule.forRootAsync({
       async useFactory(secret: SecretManager): Promise<NecordModuleOptions> {
         return {
-          token: await secret.getOrThrow('DISCORD_BOT_TOKEN'),
+          token: await secret.getOrThrow("DISCORD_BOT_TOKEN"),
           intents: [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.GuildMembers,
-            GatewayIntentBits.MessageContent
-          ]
+            GatewayIntentBits.MessageContent,
+          ],
         }
       },
-      inject: [SecretManager]
+      inject: [SecretManager],
     }),
-    ConfigModule,
-    InfrastructureModule
+    InfrastructureModule,
   ],
   providers: [
     // Events
-    AppEvent
-  ]
+    AppEvent,
+  ],
 })
 export class AppModule {}
