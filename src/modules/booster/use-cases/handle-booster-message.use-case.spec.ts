@@ -55,17 +55,20 @@ const baseMessage = {
   delete: jest.fn(),
 } as unknown as Message<true>
 
-// Helper to safely clone and override message
-function cloneMessage(overrides: Partial<Record<keyof Message<true>, unknown>> = {}): Message<true> {
+function cloneMessage(overrides: Record<string, unknown> = {}): Message<true> {
   const clone = Object.create(baseMessage)
 
   for (const [key, value] of Object.entries(overrides)) {
     clone[key] = value
   }
 
-  clone.delete = jest.fn()
+  if (typeof clone.delete !== 'function') {
+    clone.delete = jest.fn()
+  }
+
   return clone
 }
+
 
 describe("HandleBoosterMessageUseCase", () => {
   let useCase: HandleBoosterMessageUseCase
@@ -91,7 +94,7 @@ describe("HandleBoosterMessageUseCase", () => {
   })
 
   it("should skip if message is not from a member", async () => {
-    const message = cloneMessage({ member: null as any })
+    const message = cloneMessage({ member: null })
 
     await useCase.execute(message)
     expect(message.delete).not.toHaveBeenCalled()
