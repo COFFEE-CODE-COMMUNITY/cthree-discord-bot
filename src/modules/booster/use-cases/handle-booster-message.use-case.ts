@@ -48,11 +48,7 @@ export class HandleBoosterMessageUseCase {
       })
 
     const targetChannel = await client.channels.fetch(boostChannelId)
-    try {
-      await message.delete()
-    } catch (err) {
-      console.error(err)
-    }
+    await message.delete().catch(console.error)
 
     if (targetChannel instanceof TextChannel) {
       await targetChannel.send({

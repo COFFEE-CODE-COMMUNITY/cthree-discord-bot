@@ -1,9 +1,7 @@
-// src/modules/booster/events/booster.event.spec.ts
-
 import { Test, TestingModule } from "@nestjs/testing"
 import { BoosterEvent } from "./booster.event"
 import { HandleBoosterMessageUseCase } from "../use-cases/handle-booster-message.use-case"
-import { Message } from "discord.js" // Import Discord.js Message type
+import { Message } from "discord.js"
 
 describe("BoosterEvent", () => {
   let boosterEvent: BoosterEvent
@@ -41,7 +39,7 @@ describe("BoosterEvent", () => {
         member: {},
         channelId: "some-channel-id",
         author: { bot: false },
-      } as unknown as Message<true> // Menggunakan 'as unknown as Message<true>' untuk menghindari masalah tipe kompleksitas Discord.js
+      } as unknown as Message<true>
 
       await boosterEvent.onMessageCreate([mockMessage])
 
