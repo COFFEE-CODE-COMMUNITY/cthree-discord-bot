@@ -42,7 +42,7 @@ Provide step-by-step instructions on how to get the development environment runn
 # Clone the repository
 git clone https://github.com/ToufiqSenpai/ourtransfer.git
 
-# Navigate to the project directory
+# Navigate to the project use-cases
 cd ourtransfer
 
 # Install dependencies
