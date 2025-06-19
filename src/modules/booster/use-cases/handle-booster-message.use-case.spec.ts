@@ -45,7 +45,7 @@ const mockClient = {
   },
 } as unknown as Client
 
-const mockMessage = {
+const baseMessage = {
   content: "thanks for the boost!",
   type: 8,
   channelId: "boostChannelId",
@@ -54,6 +54,18 @@ const mockMessage = {
   client: mockClient,
   delete: jest.fn(),
 } as unknown as Message<true>
+
+// Helper to safely clone and override message
+function cloneMessage(overrides: Partial<Record<keyof Message<true>, unknown>> = {}): Message<true> {
+  const clone = Object.create(baseMessage)
+
+  for (const [key, value] of Object.entries(overrides)) {
+    clone[key] = value
+  }
+
+  clone.delete = jest.fn()
+  return clone
+}
 
 describe("HandleBoosterMessageUseCase", () => {
   let useCase: HandleBoosterMessageUseCase
@@ -71,8 +83,7 @@ describe("HandleBoosterMessageUseCase", () => {
   })
 
   it("should skip if message is not in boost channel", async () => {
-    const message = Object.create(mockMessage)
-    message.channelId = "wrongChannel"
+    const message = cloneMessage({ channelId: "wrongChannel" })
 
     await useCase.execute(message)
     expect(mockSecretManager.getOrThrow).toHaveBeenCalled()
@@ -80,28 +91,26 @@ describe("HandleBoosterMessageUseCase", () => {
   })
 
   it("should skip if message is not from a member", async () => {
-    const message = Object.create(mockMessage)
-    message.member = null
+    const message = cloneMessage({ member: null as any })
 
     await useCase.execute(message)
     expect(message.delete).not.toHaveBeenCalled()
   })
 
   it("should skip if message is not boost-related", async () => {
-    const message = Object.create(mockMessage)
-    message.content = "just chatting"
-    message.type = 0
+    const message = cloneMessage({ content: "just chatting", type: 0 })
 
     await useCase.execute(message)
     expect(message.delete).not.toHaveBeenCalled()
   })
 
   it("should delete message and send embed if valid", async () => {
-    await useCase.execute(mockMessage)
+    const message = cloneMessage()
+    await useCase.execute(message)
 
     expect(mockSecretManager.getOrThrow).toHaveBeenCalledWith("C3_BOOST_CHANNEL_ID")
     expect(mockSecretManager.getOrThrow).toHaveBeenCalledWith("C3_PERKY")
-    expect(mockMessage.delete).toHaveBeenCalled()
+    expect(message.delete).toHaveBeenCalled()
     expect(mockChannel.send).toHaveBeenCalledWith(
       expect.objectContaining({
         content: `<@${mockMember.id}>`,
@@ -117,7 +126,8 @@ describe("HandleBoosterMessageUseCase", () => {
 
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation()
 
-    await useCase.execute(mockMessage)
+    const message = cloneMessage()
+    await useCase.execute(message)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Target channel bukan Text Channel.")
     consoleErrorSpy.mockRestore()
