@@ -62,13 +62,12 @@ function cloneMessage(overrides: Record<string, unknown> = {}): Message<true> {
     clone[key] = value
   }
 
-  if (typeof clone.delete !== 'function') {
+  if (typeof clone.delete !== "function") {
     clone.delete = jest.fn()
   }
 
   return clone
 }
-
 
 describe("HandleBoosterMessageUseCase", () => {
   let useCase: HandleBoosterMessageUseCase

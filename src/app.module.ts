@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common"
 import { NecordModule, NecordModuleOptions } from "necord"
 import { InfrastructureModule } from "./infrastructure/infrastructure.module"
 import { SecretManager } from "./common/abstracts/secret/secret-manager.abstract"
-import { GatewayIntentBits, Partials } from "discord.js"
+import { GatewayIntentBits } from "discord.js"
 import { AppEvent } from "./app.event"
 import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
@@ -19,7 +19,6 @@ import { BoosterModule } from "./modules/booster/booster.module"
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
-          partials: [Partials.Message, Partials.Channel, Partials.GuildMember],
         }
       },
       inject: [SecretManager],
