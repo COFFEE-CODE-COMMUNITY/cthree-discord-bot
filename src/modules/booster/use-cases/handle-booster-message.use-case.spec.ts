@@ -1,11 +1,11 @@
+jest.mock("../constants/booster.constants", () => ({
+  BOOST_MESSAGE_TYPE: [0],
+}))
+
 import { HandleBoosterMessageUseCase } from "./handle-booster-message.use-case"
 import { TextChannel, Message } from "discord.js"
 import { SecretManager } from "../../../common/abstracts/secret/secret-manager.abstract"
 import { Logger } from "../../../common/interfaces/logger/logger.interface"
-
-jest.mock("../constants/booster.constants", () => ({
-  BOOST_MESSAGE_TYPE: [0],
-}))
 
 describe("HandleBoosterMessageUseCase", () => {
   let useCase: HandleBoosterMessageUseCase
