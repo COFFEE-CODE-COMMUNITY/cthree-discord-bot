@@ -23,7 +23,7 @@ export class HandleBoosterMessageUseCase {
     const user = member.user
 
     const avatarUrl = user.displayAvatarURL({ dynamic: true, size: 1024 } as { dynamic: boolean; size: number })
-    const attachment = new AttachmentBuilder(join(process.cwd(), "src", "assets", "images", "server-boost.gif"), {
+    const attachment = new AttachmentBuilder(join(process.cwd(), "assets", "images", "server-boost.gif"), {
       name: "server-boost.gif",
     })
 
@@ -57,7 +57,7 @@ export class HandleBoosterMessageUseCase {
         files: [attachment],
       })
     } else {
-      console.error("Target channel bukan Text Channel.")
+      this.logger.error("Target channel bukan Text Channel.")
     }
   }
 }

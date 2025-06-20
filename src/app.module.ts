@@ -6,6 +6,7 @@ import { GatewayIntentBits } from "discord.js"
 import { AppEvent } from "./app.event"
 import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
+import { StatsServerModule } from "./modules/stat-server/stat-server.module"
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { BoosterModule } from "./modules/booster/booster.module"
     InfrastructureModule,
     FeedbackModule,
     BoosterModule,
+    StatsServerModule,
   ],
   providers: [
     // Events
