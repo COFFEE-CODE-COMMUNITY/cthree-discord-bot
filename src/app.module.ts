@@ -7,6 +7,7 @@ import { AppEvent } from "./app.event"
 import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
+import { StatsServerModule } from "./modules/stat-server/stat-server.module"
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { WelcomeModule } from "./modules/welcome/welcome.module"
     InfrastructureModule,
     FeedbackModule,
     BoosterModule,
-    WelcomeModule
+    WelcomeModule,
+    StatsServerModule,
   ],
   providers: [
     // Events
