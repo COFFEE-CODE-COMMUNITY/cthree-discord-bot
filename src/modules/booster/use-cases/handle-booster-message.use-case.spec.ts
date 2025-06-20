@@ -129,7 +129,6 @@ describe("HandleBoosterMessageUseCase", () => {
   })
 
   it("should log an error if the target channel is not a TextChannel", async () => {
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation()
     const nonTextChannel = { type: "voice" }
     mockClient.channels.fetch.mockResolvedValue(nonTextChannel)
 
@@ -137,7 +136,6 @@ describe("HandleBoosterMessageUseCase", () => {
     await useCase.execute(message)
 
     expect(message.delete).toHaveBeenCalled()
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Target channel bukan Text Channel.")
-    consoleErrorSpy.mockRestore()
+    expect(mockLogger.error).toHaveBeenCalledWith("Target channel bukan Text Channel.")
   })
 })
