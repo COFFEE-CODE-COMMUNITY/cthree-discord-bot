@@ -27,7 +27,7 @@ import { WelcomeModule } from "./modules/welcome/welcome.module"
     InfrastructureModule,
     FeedbackModule,
     BoosterModule,
-    WelcomeModule
+    WelcomeModule,
   ],
   providers: [
     // Events
