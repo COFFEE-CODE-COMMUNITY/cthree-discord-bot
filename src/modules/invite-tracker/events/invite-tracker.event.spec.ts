@@ -60,9 +60,7 @@ describe("InviteTrackerEvent", () => {
 
       await event.onReady([mockClient])
 
-      expect(mockLogger.log).toHaveBeenCalledWith({
-        "Client is ready, delegating to LoadInvitesCacheUseCase.": true,
-      })
+      expect(mockLogger.log).toHaveBeenCalledWith("Client is ready, delegating to LoadInvitesCacheUseCase.")
 
       expect(loadCacheInviteUseCase.execute).toHaveBeenCalledWith(mockClient)
     })

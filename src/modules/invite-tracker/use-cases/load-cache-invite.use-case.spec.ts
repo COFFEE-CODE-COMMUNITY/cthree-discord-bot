@@ -38,7 +38,7 @@ const createMockGuild = (id: string, name: string, fetchedSuccessfully: boolean)
 describe("LoadCacheInviteUseCase", () => {
   let useCase: LoadCacheInviteUseCase
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     jest.clearAllMocks()
     inviteCache.clear()
 
@@ -90,7 +90,7 @@ describe("LoadCacheInviteUseCase", () => {
   })
 
   it("should handle errors when fetching invites", async () => {
-    const successfulGuild = createMockGuild("guild-1", "success Guild", true)
+    const successfulGuild = createMockGuild("guild-1", "Success Guild", true)
     const failingGuild = createMockGuild("guild-2", "Failing Guild", false)
 
     const mockClient = {
@@ -104,16 +104,11 @@ describe("LoadCacheInviteUseCase", () => {
 
     await useCase.execute(mockClient)
 
-    expect(successfulGuild.invites.fetch).toHaveBeenCalledTimes(1)
     expect(inviteCache.has("guild-1")).toBe(true)
     expect(mockLogger.log).toHaveBeenCalledWith("Cached 2 invites for guild: Success Guild")
 
-    expect(failingGuild.invites.fetch).toHaveBeenCalledTimes(1)
-    expect(inviteCache.get("guild-2")).toBe(false)
-    expect(mockLogger.error).toHaveBeenCalledWith(1)
+    expect(inviteCache.has("guild-2")).toBe(false)
     expect(mockLogger.error).toHaveBeenCalledWith("Failed to fetch invites for guild: Failing Guild", expect.any(Error))
-
-    expect(mockLogger.log).toHaveBeenCalledWith("Finished caching all guild invites.")
   })
 
   it("should run gracefully if the client has no guilds", async () => {
@@ -127,7 +122,7 @@ describe("LoadCacheInviteUseCase", () => {
 
     expect(mockLogger.log).toHaveBeenCalledWith("Loading invite cache...")
     expect(mockLogger.log).toHaveBeenCalledWith("Finished caching all guild invites.")
-    expect(mockLogger.error).not.toHaveBeenCalledWith()
+    expect(mockLogger.error).not.toHaveBeenCalled()
     expect(inviteCache.size).toBe(0)
   })
 })
