@@ -1,6 +1,16 @@
 import { Inject, Injectable } from "@nestjs/common"
 import { Logger, LOGGER } from "./common/interfaces/logger/logger.interface"
-import { Context, Once, On, ContextOf, ExplorerService, CommandsService, SlashCommandDiscovery, SlashCommandsService, SlashCommand } from "necord"
+import {
+  Context,
+  Once,
+  On,
+  ContextOf,
+  ExplorerService,
+  CommandsService,
+  SlashCommandDiscovery,
+  SlashCommandsService,
+  SlashCommand,
+} from "necord"
 import { SecretManager } from "./common/abstracts/secret/secret-manager.abstract"
 
 @Injectable()
