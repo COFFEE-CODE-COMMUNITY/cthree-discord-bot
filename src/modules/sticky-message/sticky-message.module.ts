@@ -8,7 +8,7 @@ import { EnableStickyMessageUseCase } from "./use-cases/enable-sticky-message.us
   providers: [
     // Commands
     StickyMessageCommand,
-    
+
     // Components
 
     // Services

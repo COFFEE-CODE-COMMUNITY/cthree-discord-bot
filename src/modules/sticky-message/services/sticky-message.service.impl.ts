@@ -3,7 +3,7 @@ import { StickyMessageService, TemporaryUserPayload } from "./sticky-message.ser
 
 @Injectable()
 export class StickyMessageServiceImpl implements StickyMessageService {
-  private readonly temporaryUsers: Map<string, TemporaryUserPayload> = new Map()
+  private readonly temporaryUsers = new Map<string, TemporaryUserPayload>()
 
   public setTemporaryUser(userId: string, payload: TemporaryUserPayload): void {
     this.temporaryUsers.set(userId, payload)
