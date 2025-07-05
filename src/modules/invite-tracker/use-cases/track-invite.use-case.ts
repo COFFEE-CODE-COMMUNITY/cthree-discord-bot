@@ -5,7 +5,7 @@ import { SecretManager } from "../../../common/abstracts/secret/secret-manager.a
 import { inviteCache } from "../constants/cache-collection.constants"
 
 @Injectable()
-export class TrackInviteUseCases {
+export class TrackInviteUseCase {
   public constructor(
     @Inject(LOGGER) private readonly logger: Logger,
     private readonly secretManager: SecretManager,

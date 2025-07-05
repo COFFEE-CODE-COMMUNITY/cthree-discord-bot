@@ -3,13 +3,13 @@ import { Context, On, Once } from "necord"
 import { Client, GuildMember } from "discord.js"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 import { LoadCacheInviteUseCase } from "../use-cases/load-cache-invite.use-case"
-import { TrackInviteUseCases } from "../use-cases/track-invite.use-cases"
+import { TrackInviteUseCase } from "../use-cases/track-invite.use-case"
 
 @Injectable()
 export class InviteTrackerEvent {
   public constructor(
     private readonly loadCacheInviteUseCase: LoadCacheInviteUseCase,
-    private readonly trackInviteUseCases: TrackInviteUseCases,
+    private readonly trackInviteUseCases: TrackInviteUseCase,
     @Inject(LOGGER) private readonly logger: Logger,
   ) {}
 
