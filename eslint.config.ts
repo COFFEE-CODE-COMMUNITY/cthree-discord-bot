@@ -117,7 +117,7 @@ export default tseslint.config(
           format: ["camelCase"],
           filter: {
             regex: "^_",
-            match: false
+            match: false,
           },
         },
         {
