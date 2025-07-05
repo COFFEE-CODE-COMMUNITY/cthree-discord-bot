@@ -21,6 +21,7 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
+          skipRegistration: true,
         }
       },
       inject: [SecretManager],
