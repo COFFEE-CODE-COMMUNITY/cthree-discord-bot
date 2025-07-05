@@ -15,6 +15,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/assets ./assets
 COPY --from=builder /app/app-config*.json ./
 
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 CMD ["npm", "start"]

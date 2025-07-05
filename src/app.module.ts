@@ -8,6 +8,7 @@ import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
+import { InviteTrackerModule } from "./modules/invite-tracker/invite-tracker.module"
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
+            GatewayIntentBits.GuildInvites,
           ],
         }
       },
@@ -30,6 +32,7 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
     BoosterModule,
     WelcomeModule,
     StatsServerModule,
+    InviteTrackerModule,
   ],
   providers: [
     // Events
