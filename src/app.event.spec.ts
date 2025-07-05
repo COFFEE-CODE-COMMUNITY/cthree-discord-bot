@@ -3,10 +3,16 @@ import { AppEvent } from "./app.event"
 import { Logger, LOGGER } from "./common/interfaces/logger/logger.interface"
 import { mock, MockProxy } from "jest-mock-extended"
 import { Client } from "discord.js"
+import { SecretManager } from "./common/abstracts/secret/secret-manager.abstract"
+import { CommandsService, ExplorerService, SlashCommandDiscovery, SlashCommandsService } from "necord"
 
 describe("AppEvent", () => {
   let appEvent: AppEvent
   let logger: MockProxy<Logger>
+  let secretManager: MockProxy<SecretManager>
+  let slashCommandsService: MockProxy<SlashCommandsService>
+  let explorerService: MockProxy<ExplorerService<SlashCommandDiscovery>>
+  let commandsService: MockProxy<CommandsService>
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -16,11 +22,31 @@ describe("AppEvent", () => {
           provide: LOGGER,
           useValue: mock<Logger>(),
         },
+        {
+          provide: SecretManager,
+          useValue: mock<SecretManager>(),
+        },
+        {
+          provide: SlashCommandsService,
+          useValue: mock<SlashCommandsService>(),
+        },
+        {
+          provide: ExplorerService,
+          useValue: mock<ExplorerService<SlashCommandDiscovery>>(),
+        },
+        {
+          provide: CommandsService,
+          useValue: mock<CommandsService>(),
+        },
       ],
     }).compile()
 
     appEvent = module.get<AppEvent>(AppEvent)
     logger = module.get(LOGGER)
+    secretManager = module.get(SecretManager)
+    slashCommandsService = module.get(SlashCommandsService)
+    explorerService = module.get(ExplorerService)
+    commandsService = module.get(CommandsService)
   })
 
   it("should be defined", () => {
@@ -68,6 +94,38 @@ describe("AppEvent", () => {
       appEvent.onError([error])
       expect(logger.error).toHaveBeenCalledWith(error.message, error)
       expect(logger.error).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe("registerCommands", () => {
+    it("should register slash commands for the guild", async () => {
+      const mockCommand1 = mock<SlashCommandDiscovery>({
+        getName: () => "command1",
+      })
+      const mockCommand2 = mock<SlashCommandDiscovery>({
+        getName: () => "command2",
+      })
+      const mockSlashCommands = [mockCommand1, mockCommand2]
+      const guildId = "test-guild-id"
+
+      explorerService.explore.mockReturnValue(mockSlashCommands)
+      secretManager.getOrThrow.mockResolvedValue(guildId)
+
+      await appEvent.registerCommands()
+
+      expect(logger.verbose).toHaveBeenCalledWith("Updating metadata for SlashCommands...")
+      expect(secretManager.getOrThrow).toHaveBeenCalledWith("C3_GUILD_ID")
+
+      expect(slashCommandsService.remove).toHaveBeenCalledWith("command1")
+      expect(logger.verbose).toHaveBeenCalledWith("Updating metadata for SlashCommand: command1")
+      expect(mockCommand1.setGuilds).toHaveBeenCalledWith([guildId])
+      expect(slashCommandsService.add).toHaveBeenCalledWith(mockCommand1)
+
+      expect(slashCommandsService.remove).toHaveBeenCalledWith("command2")
+      expect(logger.verbose).toHaveBeenCalledWith("Updating metadata for SlashCommand: command2")
+      expect(mockCommand2.setGuilds).toHaveBeenCalledWith([guildId])
+      expect(slashCommandsService.add).toHaveBeenCalledWith(mockCommand2)
+      expect(commandsService.registerInGuild).toHaveBeenCalledWith(guildId)
     })
   })
 })

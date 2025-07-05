@@ -17,6 +17,7 @@ import { AppEvent } from "./app.event"
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
+          skipRegistration: true,
         }
       },
       inject: [SecretManager],
