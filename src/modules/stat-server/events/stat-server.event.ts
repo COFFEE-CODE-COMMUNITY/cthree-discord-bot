@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@nestjs/common"
-import { On } from "necord"
+import { Once } from "necord"
 import { StatServerService } from "../services/stat-server.service"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 
@@ -10,7 +10,7 @@ export class StatServerEvent {
     @Inject(LOGGER) private readonly logger: Logger,
   ) {}
 
-  @On("ready")
+  @Once("ready")
   public async onReady(): Promise<void> {
     this.logger.log("Ready event caught by StatsEvents. Triggering service...")
 
