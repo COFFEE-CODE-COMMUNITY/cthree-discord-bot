@@ -7,4 +7,5 @@ export interface TemporaryUserPayload {
 export interface StickyMessageService {
   setTemporaryUser(userId: string, payload: TemporaryUserPayload): void
   getTemporaryUser(userId: string): TemporaryUserPayload | null
+  deleteTemporaryUser(userId: string): void
 }

@@ -1,10 +1,10 @@
 import { ChannelOption } from "necord"
 import { ChannelType } from "discord.js"
 
-export class EnableStickyMessageDto {
+export class DisableStickyMessageDto {
   @ChannelOption({
     name: "channel",
-    description: "Specify the channel for enable sticky message.",
+    description: "Specify the channel for disable sticky message.",
     channel_types: [ChannelType.GuildText],
     required: false,
   })

@@ -1,1 +1,6 @@
-export const STICKY_MESSAGE_CREATE_MODAL_ID = "sticky-message:create"
+export const STICKY_MESSAGE_CREATE = {
+  id: "sticky-message:create",
+  input: {
+    message: "sticky-message:create:message",
+  },
+} as const

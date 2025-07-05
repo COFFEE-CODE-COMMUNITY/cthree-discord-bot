@@ -8,7 +8,7 @@ import {
   ModalBuilder,
   TextInputStyle,
 } from "discord.js"
-import { STICKY_MESSAGE_CREATE_MODAL_ID } from "../constants/custom-id.constants"
+import { STICKY_MESSAGE_CREATE } from "../constants/custom-id.constants"
 
 @Injectable()
 export class EnableStickyMessageUseCase {
@@ -16,19 +16,20 @@ export class EnableStickyMessageUseCase {
 
   public async execute(interaction: ChatInputCommandInteraction, options: EnableStickyMessageDto): Promise<void> {
     const userId = interaction.user.id
+    const channelId = options.channel || interaction.channelId
 
-    this.stickyMessageService.setTemporaryUser(userId, { channelId: options.channel })
+    this.stickyMessageService.setTemporaryUser(userId, { channelId })
 
     const messageInput = new TextInputBuilder()
-      .setCustomId("sticky-message")
-      .setLabel("Sticky Message")
+      .setCustomId(STICKY_MESSAGE_CREATE.input.message)
+      .setLabel("Message")
       .setStyle(TextInputStyle.Paragraph)
       .setMinLength(1)
 
     const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(messageInput)
 
     const modal = new ModalBuilder()
-      .setCustomId(STICKY_MESSAGE_CREATE_MODAL_ID)
+      .setCustomId(STICKY_MESSAGE_CREATE.id)
       .setTitle("Enable Sticky")
       .addComponents(actionRow)
 
