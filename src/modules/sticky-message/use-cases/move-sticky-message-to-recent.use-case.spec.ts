@@ -87,7 +87,8 @@ describe("MoveStickyMessageToRecentUseCase", () => {
       //   ...stickyMessage,
       //   messageId: "new-message-id",
       // })
-      expect(stickyMessageRepository.updateByChannelId).toHaveBeenCalledWith("channel-123",
+      expect(stickyMessageRepository.updateByChannelId).toHaveBeenCalledWith(
+        "channel-123",
         Object.assign(stickyMessage, { messageId: "new-message-id" }),
       )
     })
