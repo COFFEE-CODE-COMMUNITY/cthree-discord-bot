@@ -59,7 +59,8 @@ export class AppEvent {
 
       command.setGuilds([c3GuildId])
       this.slashCommandsService.add(command)
-      await this.commandsService.registerInGuild(c3GuildId)
     }
+
+    await this.commandsService.registerInGuild(c3GuildId)
   }
 }
