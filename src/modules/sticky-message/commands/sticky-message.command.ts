@@ -1,16 +1,14 @@
 import { Injectable } from "@nestjs/common"
-import { Context, Options, SlashCommand, SlashCommandContext } from "necord"
+import { Context, Options, Subcommand, SlashCommandContext } from "necord"
 import { EnableStickyMessageDto } from "../dtos/enable-sticky-message.dto"
 import { EnableStickyMessageUseCase } from "../use-cases/enable-sticky-message.use-case"
 import { DisableStickyMessageDto } from "../dtos/disable-sticky-message.dto"
 import { DisableStickyMessageUseCase } from "../use-cases/disable-sticky-message.use-case"
 import { ClearStickyMessageUseCase } from "../use-cases/clear-sticky-message.use-case"
+import { StickyMessageSlashCommand } from "../decorators/sticky-message-slash-command.decorator"
 
 @Injectable()
-@SlashCommand({
-  name: "sticky-message",
-  description: "Sticky message.",
-})
+@StickyMessageSlashCommand()
 export class StickyMessageCommand {
   public constructor(
     private readonly enableStickyMessageUseCase: EnableStickyMessageUseCase,
@@ -18,7 +16,7 @@ export class StickyMessageCommand {
     private readonly clearStickyMessageUseCase: ClearStickyMessageUseCase,
   ) {}
 
-  @SlashCommand({
+  @Subcommand({
     name: "enable",
     description: "Enable the sticky message.",
   })
@@ -29,7 +27,7 @@ export class StickyMessageCommand {
     await this.enableStickyMessageUseCase.execute(interaction, options)
   }
 
-  @SlashCommand({
+  @Subcommand({
     name: "disable",
     description: "Disable the sticky message.",
   })
@@ -40,7 +38,7 @@ export class StickyMessageCommand {
     await this.disableStickyMessageUseCase.execute(interaction, options)
   }
 
-  @SlashCommand({
+  @Subcommand({
     name: "clear",
     description: "Clear all sticky messages in the server.",
   })
