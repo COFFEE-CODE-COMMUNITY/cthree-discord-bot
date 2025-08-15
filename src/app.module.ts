@@ -23,6 +23,7 @@ import { StickyMessageModule } from "./modules/sticky-message/sticky-message.mod
             GatewayIntentBits.MessageContent,
           ],
           skipRegistration: true,
+          development: [await secret.getOrThrow("C3_GUILD_ID")],
         }
       },
       inject: [SecretManager],

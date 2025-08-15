@@ -142,7 +142,7 @@ export default tseslint.config(
         },
         {
           selector: "variable",
-          format: ["camelCase", "UPPER_CASE"],
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
           leadingUnderscore: "allow",
           trailingUnderscore: "allow",
         },
