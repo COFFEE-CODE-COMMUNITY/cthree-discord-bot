@@ -1,13 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common"
-import { STICKY_MESSAGE_REPOSITORY, StickyMessageRepository } from "../repositories/sticky-message.repository"
+import { StickyMessageRepository } from "../repositories/sticky-message.repository"
 import { Logger, LOGGER } from "../../../common/interfaces/logger/logger.interface"
 import { ChatInputCommandInteraction } from "discord.js"
 
 @Injectable()
 export class ClearStickyMessageUseCase {
   public constructor(
-    @Inject(STICKY_MESSAGE_REPOSITORY) private readonly stickyMessageRepository: StickyMessageRepository,
     @Inject(LOGGER) private readonly logger: Logger,
+    private readonly stickyMessageRepository: StickyMessageRepository,
   ) {}
 
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {

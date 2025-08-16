@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common"
 import { Client, ModalSubmitInteraction, ChannelType } from "discord.js"
 import { STICKY_MESSAGE_CREATE } from "../constants/custom-id.constants"
 import { STICKY_MESSAGE_SERVICE, StickyMessageService } from "../services/sticky-message.service"
-import { STICKY_MESSAGE_REPOSITORY, StickyMessageRepository } from "../repositories/sticky-message.repository"
+import { StickyMessageRepository } from "../repositories/sticky-message.repository"
 import { Logger, LOGGER } from "../../../common/interfaces/logger/logger.interface"
 import { StickyMessage } from "../entities/sticky-message.entity"
 
@@ -10,7 +10,7 @@ import { StickyMessage } from "../entities/sticky-message.entity"
 export class CreateStickyMessageUseCase {
   public constructor(
     @Inject(STICKY_MESSAGE_SERVICE) private readonly stickyMessageService: StickyMessageService,
-    @Inject(STICKY_MESSAGE_REPOSITORY) private readonly stickyMessageRepository: StickyMessageRepository,
+    private readonly stickyMessageRepository: StickyMessageRepository,
     @Inject(LOGGER) private readonly logger: Logger,
     private readonly discordClient: Client,
   ) {}
@@ -53,7 +53,7 @@ export class CreateStickyMessageUseCase {
         stickyMessage.guildId = guildId
         stickyMessage.channelId = channelId
 
-        await this.stickyMessageRepository.create(stickyMessage)
+        await this.stickyMessageRepository.insert(stickyMessage)
 
         this.stickyMessageService.deleteTemporaryUser(userId)
 
