@@ -1,8 +1,10 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
+export type EntityId = string
+
 export class BaseEntity {
   @PrimaryGeneratedColumn("uuid")
-  public id!: string
+  public id!: EntityId
 
   @CreateDateColumn()
   public createdAt!: Date
