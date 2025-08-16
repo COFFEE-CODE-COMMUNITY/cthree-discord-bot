@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing"
 import { DeepMockProxy, mockDeep } from "jest-mock-extended"
 import { MoveStickyMessageToRecentUseCase } from "./move-sticky-message-to-recent.use-case"
-import { STICKY_MESSAGE_REPOSITORY, StickyMessageRepository } from "../repositories/sticky-message.repository"
+import { StickyMessageRepository } from "../repositories/sticky-message.repository"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 import { Message, OmitPartialGroupDMChannel } from "discord.js"
 import { StickyMessage } from "../entities/sticky-message.entity"
@@ -17,7 +17,7 @@ describe("MoveStickyMessageToRecentUseCase", () => {
       providers: [
         MoveStickyMessageToRecentUseCase,
         {
-          provide: STICKY_MESSAGE_REPOSITORY,
+          provide: StickyMessageRepository,
           useValue: mockDeep<StickyMessageRepository>(),
         },
         {
@@ -28,7 +28,7 @@ describe("MoveStickyMessageToRecentUseCase", () => {
     }).compile()
 
     useCase = module.get<MoveStickyMessageToRecentUseCase>(MoveStickyMessageToRecentUseCase)
-    stickyMessageRepository = module.get(STICKY_MESSAGE_REPOSITORY)
+    stickyMessageRepository = module.get(StickyMessageRepository)
     logger = module.get(LOGGER)
     interaction = mockDeep<OmitPartialGroupDMChannel<Message<true>>>()
   })

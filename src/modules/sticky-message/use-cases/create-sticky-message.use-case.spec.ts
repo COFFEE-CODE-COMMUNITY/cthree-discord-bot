@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing"
 import { DeepMockProxy, mockDeep } from "jest-mock-extended"
 import { CreateStickyMessageUseCase } from "./create-sticky-message.use-case"
 import { STICKY_MESSAGE_SERVICE, StickyMessageService } from "../services/sticky-message.service"
-import { STICKY_MESSAGE_REPOSITORY, StickyMessageRepository } from "../repositories/sticky-message.repository"
+import { StickyMessageRepository } from "../repositories/sticky-message.repository"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 import { Client, ModalSubmitInteraction, ChannelType, TextChannel, Message } from "discord.js"
 
@@ -23,7 +23,7 @@ describe("CreateStickyMessageUseCase", () => {
           useValue: mockDeep<StickyMessageService>(),
         },
         {
-          provide: STICKY_MESSAGE_REPOSITORY,
+          provide: StickyMessageRepository,
           useValue: mockDeep<StickyMessageRepository>(),
         },
         {
@@ -39,7 +39,7 @@ describe("CreateStickyMessageUseCase", () => {
 
     useCase = module.get<CreateStickyMessageUseCase>(CreateStickyMessageUseCase)
     stickyMessageService = module.get(STICKY_MESSAGE_SERVICE)
-    stickyMessageRepository = module.get(STICKY_MESSAGE_REPOSITORY)
+    stickyMessageRepository = module.get(StickyMessageRepository)
     logger = module.get(LOGGER)
     discordClient = module.get(Client)
     interaction = mockDeep<ModalSubmitInteraction>()
@@ -113,7 +113,7 @@ describe("CreateStickyMessageUseCase", () => {
       await useCase.execute(interaction)
 
       expect(textChannel.send).toHaveBeenCalledWith(mockData.message)
-      expect(stickyMessageRepository.create).toHaveBeenCalledWith(
+      expect(stickyMessageRepository.insert).toHaveBeenCalledWith(
         expect.objectContaining({
           message: mockData.message,
           messageId: mockData.messageId,
@@ -134,7 +134,7 @@ describe("CreateStickyMessageUseCase", () => {
       textChannel.type = ChannelType.GuildText
       textChannel.send.mockResolvedValue({ id: mockData.messageId } as Message<true>)
       discordClient.channels.fetch.mockResolvedValue(textChannel as any)
-      stickyMessageRepository.create.mockRejectedValue(error)
+      stickyMessageRepository.insert.mockRejectedValue(error)
 
       await useCase.execute(interaction)
 

@@ -6,7 +6,7 @@ import { EnableStickyMessageUseCase } from "./use-cases/enable-sticky-message.us
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { StickyMessage } from "./entities/sticky-message.entity"
 import { STICKY_MESSAGE_REPOSITORY } from "./repositories/sticky-message.repository"
-import { StickyMessageRepositoryImpl } from "./repositories/sticky-message.repository.impl"
+import { StickyMessageRepository } from "./repositories/sticky-message.repository"
 import { StickyMessageComponent } from "./components/sticky-message.component"
 import { StickyMessageEvent } from "./events/sticky-message.event"
 import { ClearStickyMessageUseCase } from "./use-cases/clear-sticky-message.use-case"
@@ -29,7 +29,7 @@ import { MoveStickyMessageToRecentUseCase } from "./use-cases/move-sticky-messag
     // Repositories
     {
       provide: STICKY_MESSAGE_REPOSITORY,
-      useClass: StickyMessageRepositoryImpl,
+      useClass: StickyMessageRepository,
     },
 
     // Services

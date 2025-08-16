@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing"
 import { DeepMockProxy, mockDeep } from "jest-mock-extended"
 import { ChatInputCommandInteraction } from "discord.js"
 import { ClearStickyMessageUseCase } from "./clear-sticky-message.use-case"
-import { STICKY_MESSAGE_REPOSITORY, StickyMessageRepository } from "../repositories/sticky-message.repository"
+import { StickyMessageRepository } from "../repositories/sticky-message.repository"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 
 describe("ClearStickyMessageUseCase", () => {
@@ -16,7 +16,7 @@ describe("ClearStickyMessageUseCase", () => {
       providers: [
         ClearStickyMessageUseCase,
         {
-          provide: STICKY_MESSAGE_REPOSITORY,
+          provide: StickyMessageRepository,
           useValue: mockDeep<StickyMessageRepository>(),
         },
         {
@@ -27,7 +27,7 @@ describe("ClearStickyMessageUseCase", () => {
     }).compile()
 
     useCase = module.get<ClearStickyMessageUseCase>(ClearStickyMessageUseCase)
-    stickyMessageRepository = module.get(STICKY_MESSAGE_REPOSITORY)
+    stickyMessageRepository = module.get(StickyMessageRepository)
     logger = module.get(LOGGER)
     interaction = mockDeep<ChatInputCommandInteraction>()
   })
