@@ -9,6 +9,7 @@ import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
 import { StickyMessageModule } from "./modules/sticky-message/sticky-message.module"
+import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-delete-message.module"
 
 @Module({
   imports: [
@@ -22,7 +23,6 @@ import { StickyMessageModule } from "./modules/sticky-message/sticky-message.mod
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
-          skipRegistration: true,
           development: [await secret.getOrThrow("C3_GUILD_ID")],
         }
       },
@@ -34,6 +34,7 @@ import { StickyMessageModule } from "./modules/sticky-message/sticky-message.mod
     WelcomeModule,
     StatsServerModule,
     StickyMessageModule,
+    AutoDeleteMessageModule,
   ],
   providers: [
     // Events

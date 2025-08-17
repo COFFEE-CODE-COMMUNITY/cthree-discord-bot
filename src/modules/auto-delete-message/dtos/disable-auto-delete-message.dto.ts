@@ -1,10 +1,10 @@
 import { ChannelOption } from "necord"
 import { ChannelType, GuildChannel } from "discord.js"
 
-export class EnableAutoDeleteMessageDto {
+export class DisableAutoDeleteMessageDto {
   @ChannelOption({
     name: "channel",
-    description: "Specify the channel for enable auto-delete message.",
+    description: "Specify the channel for disable auto-delete message.",
     channel_types: [ChannelType.GuildText],
     required: false,
   })
