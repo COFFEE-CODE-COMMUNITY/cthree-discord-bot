@@ -12,7 +12,7 @@ export class DisableStickyMessageUseCase {
   ) {}
 
   public async execute(interaction: ChatInputCommandInteraction, options: DisableStickyMessageDto): Promise<void> {
-    const channelId = options.channel || interaction.channelId
+    const channelId = options.channel?.id || interaction.channelId
 
     try {
       await this.stickyMessageRepository.deleteByChannelId(channelId)

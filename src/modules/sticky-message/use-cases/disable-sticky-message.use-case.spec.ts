@@ -39,20 +39,48 @@ describe("DisableStickyMessageUseCase", () => {
 
   describe("execute", () => {
     it("should disable sticky message using channel from options", async () => {
-      const options: DisableStickyMessageDto = { channel: "channel-from-options" }
+      const mockChannel = { id: "channel-from-options" }
+      const options: DisableStickyMessageDto = { channel: mockChannel as any }
       interaction.channelId = "channel-from-interaction"
 
       await useCase.execute(interaction, options)
 
-      expect(stickyMessageRepository.deleteByChannelId).toHaveBeenCalledWith(options.channel)
+      expect(stickyMessageRepository.deleteByChannelId).toHaveBeenCalledWith("channel-from-options")
       expect(interaction.reply).toHaveBeenCalledWith({
-        content: `Sticky message has been disabled for <#${options.channel}>.`,
+        content: `Sticky message has been disabled for <#channel-from-options>.`,
         flags: "Ephemeral",
       })
     })
 
     it("should disable sticky message using channel from interaction when options.channel is not provided", async () => {
-      const options: DisableStickyMessageDto = { channel: undefined }
+      const options: DisableStickyMessageDto = {}
+      interaction.channelId = "channel-from-interaction"
+
+      await useCase.execute(interaction, options)
+
+      expect(stickyMessageRepository.deleteByChannelId).toHaveBeenCalledWith(interaction.channelId)
+      expect(interaction.reply).toHaveBeenCalledWith({
+        content: `Sticky message has been disabled for <#${interaction.channelId}>.`,
+        flags: "Ephemeral",
+      })
+    })
+
+    it("should use interaction channelId when channel option has no id property", async () => {
+      const mockChannel = {}
+      const options: DisableStickyMessageDto = { channel: mockChannel as any }
+      interaction.channelId = "channel-from-interaction"
+
+      await useCase.execute(interaction, options)
+
+      expect(stickyMessageRepository.deleteByChannelId).toHaveBeenCalledWith(interaction.channelId)
+      expect(interaction.reply).toHaveBeenCalledWith({
+        content: `Sticky message has been disabled for <#${interaction.channelId}>.`,
+        flags: "Ephemeral",
+      })
+    })
+
+    it("should use interaction channelId when channel option is null", async () => {
+      const options: DisableStickyMessageDto = { channel: null as any }
       interaction.channelId = "channel-from-interaction"
 
       await useCase.execute(interaction, options)
@@ -65,18 +93,34 @@ describe("DisableStickyMessageUseCase", () => {
     })
 
     it("should handle errors during deletion", async () => {
-      const options: DisableStickyMessageDto = { channel: "some-channel" }
+      const mockChannel = { id: "some-channel" }
+      const options: DisableStickyMessageDto = { channel: mockChannel as any }
+      const error = new Error("Deletion failed")
+      stickyMessageRepository.deleteByChannelId.mockRejectedValue(error)
+
+      await useCase.execute(interaction, options)
+
+      expect(logger.error).toHaveBeenCalledWith(`Failed to disable sticky message for channel some-channel`, error)
+      expect(interaction.reply).toHaveBeenCalledWith({
+        content: `Failed to disable sticky message for <#some-channel>. Please try again later.`,
+        flags: "Ephemeral",
+      })
+    })
+
+    it("should handle errors during deletion with interaction channelId fallback", async () => {
+      const options: DisableStickyMessageDto = {}
+      interaction.channelId = "interaction-channel"
       const error = new Error("Deletion failed")
       stickyMessageRepository.deleteByChannelId.mockRejectedValue(error)
 
       await useCase.execute(interaction, options)
 
       expect(logger.error).toHaveBeenCalledWith(
-        `Failed to disable sticky message for channel ${options.channel}`,
+        `Failed to disable sticky message for channel interaction-channel`,
         error,
       )
       expect(interaction.reply).toHaveBeenCalledWith({
-        content: `Failed to disable sticky message for <#${options.channel}>. Please try again later.`,
+        content: `Failed to disable sticky message for <#interaction-channel>. Please try again later.`,
         flags: "Ephemeral",
       })
     })

@@ -1,5 +1,5 @@
 import { ChannelOption } from "necord"
-import { ChannelType } from "discord.js"
+import { ChannelType, GuildChannel } from "discord.js"
 
 export class DisableStickyMessageDto {
   @ChannelOption({
@@ -8,5 +8,5 @@ export class DisableStickyMessageDto {
     channel_types: [ChannelType.GuildText],
     required: false,
   })
-  public channel?: string
+  public channel?: GuildChannel
 }

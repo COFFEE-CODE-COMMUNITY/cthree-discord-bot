@@ -16,7 +16,7 @@ export class EnableStickyMessageUseCase {
 
   public async execute(interaction: ChatInputCommandInteraction, options: EnableStickyMessageDto): Promise<void> {
     const userId = interaction.user.id
-    const channelId = options.channel || interaction.channelId
+    const channelId = options.channel?.id || interaction.channelId
 
     this.stickyMessageService.setTemporaryUser(userId, { channelId })
 
