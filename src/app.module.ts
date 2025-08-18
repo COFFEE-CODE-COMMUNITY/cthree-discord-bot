@@ -8,6 +8,8 @@ import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
+import { StickyMessageModule } from "./modules/sticky-message/sticky-message.module"
+import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-delete-message.module"
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
+          development: [await secret.getOrThrow("C3_GUILD_ID")],
         }
       },
       inject: [SecretManager],
@@ -30,6 +33,8 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
     BoosterModule,
     WelcomeModule,
     StatsServerModule,
+    StickyMessageModule,
+    AutoDeleteMessageModule,
   ],
   providers: [
     // Events

@@ -14,6 +14,7 @@ Brief description of my project.
 - [🛠️ Project Standardization]()
     - [Branching Strategy]()
     - [Commit Conventions]()
+    - [ESLint Rules]()
 - [🏗️ Application Architecture Overview]()
     - [Overview]()
     - [Project Structure]()
@@ -29,7 +30,6 @@ List any software, tools, or accounts needed before a developer can start workin
 - Node.js (v22.x or higher)
 - npm / yarn / pnpm
 - Docker
-- Azure Account
 
 ---
 
@@ -51,6 +51,80 @@ npm install
 yarn install
 # or
 pnpm install
+```
+
+<strong>Configuration</strong>
+The application uses .env files for secrets and environment-specific variables, and app-config.json for non-secret configurations.
+
+To set up your local environment, copy the .env.example file in the project root then replace the placeholder value to your secret value.
+
+
+**Application Configuration**
+
+General application configuration is managed in app-config.json. You can override these settings for specific environments by creating a corresponding file, such as `app-config.production.json`.
+
+For example, the logger configuration is defined in app-config.json:
+
+```json
+{
+  "logger": {
+    "level": "debug",
+    "file": {
+      "enabled": false,
+      "outputPath": "logs/app.log"
+    }
+  }
+}
+```
+
+Then in production mode you can create `app-config.production.json` with the config like this:
+
+```json
+{
+  "logger": {
+    "level": "info",
+    "file": {
+      "enabled": true
+    }
+  }
+}
+```
+
+<strong>Running The Application</strong>
+
+You can run the application in either development or production mode.
+
+**Development Mode**
+
+To run the application in development mode with hot-reloading, use the following command. This will watch for file changes and automatically restart the server.
+
+```bash
+# Using npm
+npm run dev
+```
+
+**Production Mode**
+
+For production, you should first build the application and then run the compiled JavaScript.
+
+```bash
+# 1. Build the application
+npm run build
+
+# 2. Start the application
+npm start
+```
+
+**Using Docker**
+
+You can also run the application using Docker.
+
+```bash
+# 1. Build the Docker image
+docker build -t cthree-discord-bot .
+
+# 2. Run the container using your .env file
+docker run --env-file .env -d --name cthree-bot cthree-discord-bot
 ```
 
 ### 🛠️ Project Standardization
@@ -119,3 +193,5 @@ Example:
 feat: allow provided config object to extend other configs
 
 BREAKING CHANGE: extends key in config file is now used for extending other config files
+
+<strong>ESLint Rules</strong>
