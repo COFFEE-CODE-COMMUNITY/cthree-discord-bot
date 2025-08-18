@@ -8,6 +8,7 @@ import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
+//import { TakeRoleModule } from "./modules/take-role/take-role.module";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
     BoosterModule,
     WelcomeModule,
     StatsServerModule,
+    //TakeRoleModule,
   ],
   providers: [
     // Events
