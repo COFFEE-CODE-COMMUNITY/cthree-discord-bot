@@ -139,6 +139,10 @@ export default tseslint.config(
         {
           selector: "typeProperty",
           format: ["camelCase"],
+          filter: {
+            regex: "^(custom_id|guild_id|user_id|application_id|channel_id|message_id)$",
+            match: false
+          }
         },
         {
           selector: "variable",
