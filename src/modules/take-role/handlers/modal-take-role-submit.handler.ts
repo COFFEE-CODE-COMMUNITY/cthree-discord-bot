@@ -1,6 +1,5 @@
-import { Inject, Injectable } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { Interaction } from "discord.js"
-import { TAKE_ROLE_SERVICE } from "../services/take-role.service"
 import { CreateTakeRoleDto } from "../dtos/create-take-role.dto"
 import { takeRoleCache } from "../constants/take-role-cache.constant"
 import { SecretManager } from "../../../common/abstracts/secret/secret-manager.abstract"
@@ -9,7 +8,6 @@ import { InputTakeRoleChannelUseCase } from "../use-cases/input-take-role-channe
 @Injectable()
 export class ModalTakeRoleSubmitHandler {
   public constructor(
-    @Inject(TAKE_ROLE_SERVICE)
     private readonly inputTakeRoleChannel: InputTakeRoleChannelUseCase,
     private readonly secret: SecretManager,
   ) {}

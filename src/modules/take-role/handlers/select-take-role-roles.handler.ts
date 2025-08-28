@@ -1,14 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common"
 import { RoleSelectMenuInteraction } from "discord.js"
 import { takeRoleCache } from "../constants/take-role-cache.constant"
-import { ITakeRoleService, TAKE_ROLE_SERVICE } from "../services/take-role.service"
+import {ITakeRoleService, TAKE_ROLE_SERVICE} from "../services/take-role.service"
 import { SendTakeRoleEmbedUseCase } from "../use-cases/send-take-role-embed.use-case"
 
 @Injectable()
 export class SelectTakeRoleRolesHandler {
   public constructor(
-    @Inject(TAKE_ROLE_SERVICE)
-    private readonly takeRoleService: ITakeRoleService,
+    @Inject(TAKE_ROLE_SERVICE) private readonly takeRoleService: ITakeRoleService,
     private readonly sendTakeRoleEmbedUseCase: SendTakeRoleEmbedUseCase,
   ) {}
 

@@ -10,7 +10,9 @@ import { Logger, LOGGER } from "../../../common/interfaces/logger/logger.interfa
 
 @Injectable()
 export class ShowTakeRoleModalUseCase {
-  public constructor(@Inject(LOGGER) private readonly logger: Logger) {}
+  public constructor(
+    @Inject(LOGGER) private readonly logger: Logger
+  ) {}
 
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const modal = new ModalBuilder().setCustomId("takeRoleModal").setTitle("Create Take Role Embed")

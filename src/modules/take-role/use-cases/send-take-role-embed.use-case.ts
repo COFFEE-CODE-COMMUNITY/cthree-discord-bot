@@ -8,13 +8,12 @@ import {
   TextChannel,
 } from "discord.js"
 import { Inject, Injectable } from "@nestjs/common"
-import { ITakeRoleService, TAKE_ROLE_SERVICE } from "../services/take-role.service"
+import {ITakeRoleService, TAKE_ROLE_SERVICE} from "../services/take-role.service"
 
 @Injectable()
 export class SendTakeRoleEmbedUseCase {
   public constructor(
-    @Inject(TAKE_ROLE_SERVICE)
-    private readonly takeRoleService: ITakeRoleService,
+    @Inject(TAKE_ROLE_SERVICE) private readonly takeRoleService: ITakeRoleService,
   ) {}
 
   public async execute(takeRoleId: string, guild: any): Promise<void> {
