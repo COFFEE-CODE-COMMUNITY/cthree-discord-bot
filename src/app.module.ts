@@ -10,6 +10,9 @@ import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
 import { StickyMessageModule } from "./modules/sticky-message/sticky-message.module"
 import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-delete-message.module"
+import { CommonModule } from "./common/common.module"
+import { EmbedModule } from "./modules/embed/embed.module"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
   imports: [
@@ -28,6 +31,8 @@ import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-dele
       },
       inject: [SecretManager],
     }),
+    HttpModule.register({ global: true }),
+    CommonModule,
     InfrastructureModule,
     FeedbackModule,
     BoosterModule,
@@ -35,6 +40,7 @@ import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-dele
     StatsServerModule,
     StickyMessageModule,
     AutoDeleteMessageModule,
+    EmbedModule,
   ],
   providers: [
     // Events
