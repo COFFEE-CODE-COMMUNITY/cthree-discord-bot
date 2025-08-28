@@ -115,6 +115,10 @@ export default tseslint.config(
         {
           selector: "parameter",
           format: ["camelCase"],
+          filter: {
+            regex: "^_",
+            match: false,
+          },
         },
         {
           selector: "parameterProperty",
@@ -130,15 +134,19 @@ export default tseslint.config(
         },
         {
           selector: "typeParameter",
-          format: ["camelCase"],
+          format: ["PascalCase"],
         },
         {
           selector: "typeProperty",
           format: ["camelCase"],
+          filter: {
+            regex: "^(custom_id|guild_id|user_id|application_id|channel_id|message_id)$",
+            match: false
+          }
         },
         {
           selector: "variable",
-          format: ["camelCase", "UPPER_CASE"],
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
           leadingUnderscore: "allow",
           trailingUnderscore: "allow",
         },

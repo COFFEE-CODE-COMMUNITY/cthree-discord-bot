@@ -8,6 +8,11 @@ import { FeedbackModule } from "./modules/feedback/feedback.module"
 import { BoosterModule } from "./modules/booster/booster.module"
 import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
+import { StickyMessageModule } from "./modules/sticky-message/sticky-message.module"
+import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-delete-message.module"
+import { CommonModule } from "./common/common.module"
+import { EmbedModule } from "./modules/embed/embed.module"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
   imports: [
@@ -21,15 +26,21 @@ import { StatsServerModule } from "./modules/stat-server/stat-server.module"
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
           ],
+          development: [await secret.getOrThrow("C3_GUILD_ID")],
         }
       },
       inject: [SecretManager],
     }),
+    HttpModule.register({ global: true }),
+    CommonModule,
     InfrastructureModule,
     FeedbackModule,
     BoosterModule,
     WelcomeModule,
     StatsServerModule,
+    StickyMessageModule,
+    AutoDeleteMessageModule,
+    EmbedModule,
   ],
   providers: [
     // Events

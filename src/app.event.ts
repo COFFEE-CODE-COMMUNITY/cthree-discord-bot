@@ -24,6 +24,7 @@ export class AppEvent {
 
   @On("error")
   public onError(@Context() [error]: ContextOf<"error">): void {
+    console.error(error)
     this.logger.error(error.message, error)
   }
 }
