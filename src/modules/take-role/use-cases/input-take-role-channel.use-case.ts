@@ -13,8 +13,7 @@ export class InputTakeRoleChannelUseCase {
       .setMinValues(1)
       .setMaxValues(1)
 
-    const row = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-      .addComponents(channelSelectMenu)
+    const row = new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(channelSelectMenu)
 
     const response = {
       content: "Silakan pilih channel tujuan pengiriman embed:",

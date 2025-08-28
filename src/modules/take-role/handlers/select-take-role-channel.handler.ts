@@ -5,9 +5,7 @@ import { InputTakeRoleRolesUseCase } from "../use-cases/input-take-role-roles.us
 
 @Injectable()
 export class SelectTakeRoleChannelHandler {
-  public constructor(
-    private readonly inputTakeRoleRolesUseCase: InputTakeRoleRolesUseCase
-  ) {}
+  public constructor(private readonly inputTakeRoleRolesUseCase: InputTakeRoleRolesUseCase) {}
 
   public async execute(interaction: Interaction): Promise<void> {
     if (!interaction.isChannelSelectMenu()) return
