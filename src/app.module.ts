@@ -10,6 +10,7 @@ import { WelcomeModule } from "./modules/welcome/welcome.module"
 import { StatsServerModule } from "./modules/stat-server/stat-server.module"
 import { StickyMessageModule } from "./modules/sticky-message/sticky-message.module"
 import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-delete-message.module"
+import { ConfessionModule } from "./modules/confession/confession.module"
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AutoDeleteMessageModule } from "./modules/auto-delete-message/auto-dele
     StatsServerModule,
     StickyMessageModule,
     AutoDeleteMessageModule,
+    ConfessionModule,
   ],
   providers: [
     // Events

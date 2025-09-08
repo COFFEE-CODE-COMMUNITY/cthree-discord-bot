@@ -5,10 +5,7 @@ import { Confession } from "../entities/confession.entity"
 
 @Injectable()
 export class ConfessionRepository {
-  public constructor(
-    @InjectRepository(Confession)
-    private readonly repo: Repository<Confession>,
-  ) {}
+  public constructor(@InjectRepository(Confession) private readonly repo: Repository<Confession>) {}
 
   public create(data: Partial<Confession>): Confession {
     return this.repo.create(data)

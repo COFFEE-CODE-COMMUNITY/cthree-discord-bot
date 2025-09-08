@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: cthree-db
+    restart: always
+    environment:
+      POSTGRES_USER: cthree-bot
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cthree-discord-bot
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: cthree-app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: cthree-bot
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: cthree-discord-bot
+volumes:
+  db_data:
