@@ -48,7 +48,7 @@ describe("StatServerEvent", () => {
       await statServerEvent.onReady()
 
       expect(mockLogger.log).toHaveBeenCalledTimes(1)
-      expect(mockLogger.log).toHaveBeenCalledWith("Ready event caught by StatsEvents. Triggering service...")
+      expect(mockLogger.log).toHaveBeenCalledWith("Ready event caught by StatsEvents. Triggering services...")
       expect(statServerService.initialize).toHaveBeenCalledWith()
       expect(statServerService.initialize).toHaveBeenCalledTimes(1)
     })

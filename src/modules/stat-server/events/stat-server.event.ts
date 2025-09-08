@@ -12,7 +12,7 @@ export class StatServerEvent {
 
   @On("ready")
   public async onReady(): Promise<void> {
-    this.logger.log("Ready event caught by StatsEvents. Triggering service...")
+    this.logger.log("Ready event caught by StatsEvents. Triggering services...")
 
     await this.statServerService.initialize()
   }
