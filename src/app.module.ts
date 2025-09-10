@@ -23,6 +23,7 @@ import { ConfessionModule } from "./modules/confession/confession.module"
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.MessageContent,
+            GatewayIntentBits.GuildMessageReactions,
           ],
           development: [await secret.getOrThrow("C3_GUILD_ID")],
         }

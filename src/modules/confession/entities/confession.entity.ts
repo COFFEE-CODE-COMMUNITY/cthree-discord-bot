@@ -10,10 +10,10 @@ export class Confession {
   @Column({ name: "message_id", type: "varchar", length: 20, unique: true })
   public messageId!: string
 
-  @Column({ name: "channel_id", type: "varchar", length: 20 })
+  @Column({ name: "channel_id", type: "varchar", length: 20, nullable: true })
   public channelId!: string
 
-  @Column({ name: "guild_id", type: "varchar", length: 20 })
+  @Column({ name: "guild_id", type: "varchar", length: 20, nullable: true })
   public guildId!: string
 
   @Column({ name: "title", type: "varchar", length: 100, nullable: true })
@@ -24,6 +24,9 @@ export class Confession {
 
   @Column({ name: "is_active", type: "boolean", default: true })
   public isActive!: boolean
+
+  @Column({ nullable: true })
+  public parentMessageId?: string
 
   @CreateDateColumn({ name: "created_at" })
   public createdAt!: Date

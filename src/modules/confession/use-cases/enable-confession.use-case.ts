@@ -1,15 +1,9 @@
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  ChatInputCommandInteraction,
-  EmbedBuilder,
-  TextChannel,
-} from "discord.js"
+import { Inject, Injectable } from "@nestjs/common"
 import { EnableConfessionDto } from "../dtos/enable-confession.dto"
 import { CONFESSION_SERVICE, IConfessionService } from "../services/confession.service"
-import { Inject, Injectable } from "@nestjs/common"
-import { CONFESSION_REPLY, CONFESSION_SHOW_MODAL } from "../constants/custom-id.constant"
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, EmbedBuilder, TextChannel } from "discord.js"
+
+import { CREATE_CONFESSION_BTN, REPLY_CONFESSION_BTN } from "../constants/custom-id.constant"
 import { LOGGER, Logger } from "../../../common/interfaces/logger/logger.interface"
 
 @Injectable()
@@ -19,54 +13,62 @@ export class EnableConfessionUseCase {
     @Inject(LOGGER) private readonly logger: Logger,
   ) {}
 
-  public async execute(interaction: ChatInputCommandInteraction, option: EnableConfessionDto): Promise<void> {
-    const guildId = interaction.guildId!
-    const channel = option.channel as TextChannel
+  public async execute(interaction: any, dto: EnableConfessionDto): Promise<void> {
+    const { channel } = dto
 
-    const config = await this.confessionService.getConfessionChannel(guildId)
+    if (!channel || channel.type !== ChannelType.GuildText) {
+      await interaction.reply({ content: "Invalid channel type.", ephemeral: true })
+      return
+    }
 
-    const makeConfessionBtn = new ButtonBuilder()
-      .setCustomId(CONFESSION_SHOW_MODAL)
-      .setLabel("Make a Confession")
-      .setStyle(ButtonStyle.Primary)
+    const textChannel = channel as TextChannel
 
-    const replyConfessionBtn = new ButtonBuilder()
-      .setCustomId(CONFESSION_REPLY)
-      .setLabel("Reply")
-      .setStyle(ButtonStyle.Primary)
+    const confessionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId(CREATE_CONFESSION_BTN)
+        .setLabel("Make a Confession")
+        .setStyle(ButtonStyle.Primary),
 
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(makeConfessionBtn, replyConfessionBtn)
+      new ButtonBuilder()
+        .setCustomId(REPLY_CONFESSION_BTN)
+        .setLabel("Reply Confession")
+        .setStyle(ButtonStyle.Secondary),
+    )
 
-    const embed = new EmbedBuilder()
-      .setTitle("Anonymous Confession")
-      .setDescription("Klik tombol di bawah untuk membuat confession secara anonim.")
-      .setColor("Blue")
+    const confessionEmbed = new EmbedBuilder()
+      .setTitle("📢 Confession is now enabled!")
+      .setDescription("Click the button below to make an anonymous confession or reply to one.")
+      .setColor("Blurple")
 
-    if (config?.messageId) {
+    const existing = await this.confessionService.getConfessionChannel(interaction.guildId)
+
+    if (existing?.messageId) {
       try {
-        const existingMsg = await channel.messages.fetch(config.messageId)
-        await existingMsg.edit({ embeds: [embed], components: [row] })
+        const existingMessage = await textChannel.messages.fetch(existing.messageId)
 
-        await interaction.reply({
-          content: `✅ Confession sudah diaktifkan di <#${channel.id}>`,
-          ephemeral: true,
+        await existingMessage.edit({
+          embeds: [confessionEmbed],
+          components: [confessionRow],
         })
 
+        await this.confessionService.setConfessionChannel(interaction.guildId, textChannel.id, existingMessage.id)
+
+        await interaction.reply({ content: "Confession has been updated in the selected channel.", ephemeral: true })
         return
-      } catch (e) {
-        this.logger.warn("Pesan lama tidak ditemukan, membuat baru...")
+      } catch (err) {
+        this.logger.error(`Error while edited message: ${err}`)
       }
     }
 
-    const newMsg = await channel.send({
-      embeds: [embed],
-      components: [row],
+    const sentMessage = await textChannel.send({
+      embeds: [confessionEmbed],
+      components: [confessionRow],
     })
 
-    await this.confessionService.setConfessionChannel(guildId, channel.id, newMsg.id)
+    await this.confessionService.setConfessionChannel(interaction.guildId, textChannel.id, sentMessage.id)
 
     await interaction.reply({
-      content: `✅ Confession berhasil diaktifkan di <#${channel.id}>`,
+      content: "Confession has been enabled in the selected channel.",
       ephemeral: true,
     })
   }

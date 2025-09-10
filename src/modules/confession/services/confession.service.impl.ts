@@ -41,6 +41,7 @@ export class ConfessionServiceImpl implements IConfessionService {
     guildId: string
     title: string
     content: string
+    parentMessageId?: string
   }): Promise<Confession> {
     const confession = this.confessionRepo.create({ ...data, isActive: true })
     return this.confessionRepo.save(confession)
@@ -54,13 +55,8 @@ export class ConfessionServiceImpl implements IConfessionService {
     await this.confessionRepo.disable(messageId)
   }
 
-  public async getConfessionStats(guildId: string): Promise<{ total: number; today: number; channelId?: string }> {
-    const channelConfig = await this.getConfessionChannel(guildId)
-    if (!channelConfig) return { total: 0, today: 0 }
-
-    const today = new Date(new Date().setHours(0, 0, 0, 0))
-    const { total, today: todayCount } = await this.confessionRepo.countStats(channelConfig.channelId, today)
-
-    return { total, today: todayCount, channelId: channelConfig.channelId }
+  public async getConfessionStatsByChannel(channelId: string): Promise<{ total: number }> {
+    const { total } = await this.confessionRepo.countStats(channelId, new Date(0))
+    return { total }
   }
 }

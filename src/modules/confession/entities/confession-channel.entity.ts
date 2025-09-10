@@ -9,7 +9,7 @@ export class ConfessionChannel {
   @Column({ name: "guild_id", type: "varchar", length: 20, unique: true })
   public guildId!: string
 
-  @Column({ name: "channel_id", type: "varchar", length: 20 })
+  @Column({ name: "channel_id", type: "varchar", length: 20, nullable: true })
   public channelId!: string
 
   @Column({ name: "message_id", type: "varchar", length: 20, nullable: true })

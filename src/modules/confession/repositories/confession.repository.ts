@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
-import { Repository, UpdateResult } from "typeorm"
+import { Between, Repository, UpdateResult } from "typeorm"
 import { Confession } from "../entities/confession.entity"
 
 @Injectable()
@@ -24,10 +24,20 @@ export class ConfessionRepository {
   }
 
   public async countStats(channelId: string, today: Date): Promise<{ total: number; today: number }> {
-    const [total, todayCount] = await Promise.all([
-      this.repo.count({ where: { channelId, isActive: true } }),
-      this.repo.count({ where: { channelId, isActive: true, createdAt: today as any } }),
-    ])
+    const total = await this.repo.count({ where: { channelId } })
+
+    const startOfDay = new Date(today)
+    startOfDay.setHours(0, 0, 0, 0)
+    const endOfDay = new Date(today)
+    endOfDay.setHours(23, 59, 59, 999)
+
+    const todayCount = await this.repo.count({
+      where: {
+        channelId,
+        createdAt: Between(startOfDay, endOfDay),
+      },
+    })
+
     return { total, today: todayCount }
   }
 }

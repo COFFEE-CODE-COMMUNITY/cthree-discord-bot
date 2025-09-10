@@ -14,15 +14,12 @@ export interface IConfessionService {
     guildId: string
     title: string
     content: string
+    parentMessageId?: string
   }): Promise<Confession>
 
   getConfession(messageId: string): Promise<Confession | null>
 
   deleteConfession(messageId: string): Promise<void>
 
-  getConfessionStats(guildId: string): Promise<{
-    total: number
-    today: number
-    channelId?: string
-  }>
+  getConfessionStatsByChannel(channelId: string): Promise<{ total: number }>
 }
