@@ -5,28 +5,29 @@ name: cthree-discord-bot-production
 services:
   database:
     image: postgres:17
-    container_name: chtree-discord-bot-database
+    container_name: cthree-discord-bot-database
     networks:
       - cthree_discord_bot_network
-    environment:
-      POSTGRES_USER: cthree-bot
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: cthree-discord-bot
+    env_file:
+      - .env
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    env_file:
-      - .env
 
   app:
     build: .
     container_name: cthree-discord-bot-app
     networks:
       - cthree_discord_bot_network
+    depends_on:
+      - database
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
 
 networks:
-  - cthree_discord_bot_network:
+  cthree_discord_bot_network:
+    driver: bridge
