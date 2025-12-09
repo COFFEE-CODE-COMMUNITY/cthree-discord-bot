@@ -54,9 +54,9 @@ jobs:
           script: |
             cd /home/${{ secrets.SSH_USERNAME }}/cthree-discord-bot
 
-            echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
-
-            docker stop cthree-discord-bot || true
-            docker rm cthree-discord-bot || true
-            docker build -t cthree-discord-bot .
-            docker run -d --name cthree-discord-bot --env-file .env cthree-discord-bot
+#            docker stop cthree-discord-bot || true
+##            docker rm cthree-discord-bot || true
+##            docker build -t cthree-discord-bot .
+##            docker run -d --name cthree-discord-bot --env-file .env cthree-discord-bot
+            docker compose -f docker-compose.production.yml down
+            docker compose -f docker-compose.production.yml up -d
