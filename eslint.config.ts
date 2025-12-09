@@ -115,6 +115,10 @@ export default tseslint.config(
         {
           selector: "parameter",
           format: ["camelCase"],
+          filter: {
+            regex: "^_",
+            match: false,
+          },
         },
         {
           selector: "parameterProperty",
@@ -130,7 +134,7 @@ export default tseslint.config(
         },
         {
           selector: "typeParameter",
-          format: ["camelCase"],
+          format: ["PascalCase"],
         },
         {
           selector: "typeProperty",
@@ -138,7 +142,7 @@ export default tseslint.config(
         },
         {
           selector: "variable",
-          format: ["camelCase", "UPPER_CASE"],
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
           leadingUnderscore: "allow",
           trailingUnderscore: "allow",
         },

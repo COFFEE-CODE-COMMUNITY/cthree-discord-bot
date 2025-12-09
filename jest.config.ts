@@ -1,17 +1,15 @@
-import { Config } from 'jest'
+import type { JestConfigWithTsJest } from "ts-jest"
 
-const config: Config = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  moduleFileExtensions: ['ts', 'js', 'json'],
+const config: JestConfigWithTsJest = {
+  preset: "ts-jest",
+  testEnvironment: "node",
+  moduleFileExtensions: ["ts", "js", "json"],
   transform: {
-    "^.+\\.(t|j)s?$": "ts-jest"
+    "^.+\\.ts$": "ts-jest",
   },
   testRegex: ".*\\.spec\\.ts$",
-  collectCoverageFrom: [
-    "**/*.(t|j)s",
-  ],
-  rootDir: "src"
+  collectCoverageFrom: ["**/*.(t|j)s"],
+  rootDir: "src",
 }
 
 export default config
