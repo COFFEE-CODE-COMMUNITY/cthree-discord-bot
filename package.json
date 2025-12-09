@@ -9,7 +9,7 @@
     "start": "node dist/main.js",
     "test": "jest",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"**/*.ts\""
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.71",
